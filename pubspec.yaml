@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.6
+  go_router: ^14.2.7
 
 dev_dependencies:
   flutter_test:
@@ -16,4 +18,17 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 flutter:
+
+  fonts: 
+    - family: RobotoSlab
+      fonts: 
+        - asset: lib/assets/fonts/RobotoSlab-VariableFont_wght.ttf
+    
+    - family: DancingScript
+      fonts: 
+        - asset: lib/assets/fonts/DancingScript-VariableFont_wght.ttf
+
+  assets: 
+    - lib/assets/images/sign_up.jpg
   uses-material-design: true
+
