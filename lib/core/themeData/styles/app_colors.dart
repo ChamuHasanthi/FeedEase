@@ -14,5 +14,6 @@ class AppColors {
   static const Color paleBlueGray =
       Color.fromARGB(255, 151, 157, 172); // #979DAC
 
+  static const Color red = Colors.redAccent;
   static const Color white = Colors.white;
 }

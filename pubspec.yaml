@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  flutter_launcher_icons: ^0.13.1
   go_router: ^14.2.7
 
 dev_dependencies:
@@ -18,17 +19,21 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 flutter:
-
-  fonts: 
+  fonts:
     - family: RobotoSlab
-      fonts: 
+      fonts:
         - asset: lib/assets/fonts/RobotoSlab-VariableFont_wght.ttf
-    
     - family: DancingScript
-      fonts: 
+      fonts:
         - asset: lib/assets/fonts/DancingScript-VariableFont_wght.ttf
 
-  assets: 
+  assets:
     - lib/assets/images/sign_up.jpg
+    - lib/assets/images/login.jpg
+
   uses-material-design: true
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: lib/assets/images/feedEase.jpg

@@ -31,9 +31,12 @@ class _SplashViewState extends State<SplashView> {
       ],
       child: Scaffold(
         body: Container(
-          color: Colors.amber,
-          child: const Center(
-            child: Text('Splash Screen'),
+          color: Colors.white,
+          child: Center(
+            child: Text(
+              'Feed Ease',
+              style: Theme.of(context).textTheme.displayLarge,
+            ),
           ),
         ),
       ),

@@ -2,20 +2,19 @@ import 'package:feeding_application/core/themeData/styles/app_colors.dart';
 import 'package:feeding_application/shared/custom_input_field.dart';
 import 'package:flutter/material.dart';
 
-class EmployerRegisterView extends StatefulWidget {
-  const EmployerRegisterView({super.key});
+class RestaurantRegisterView extends StatefulWidget {
+  const RestaurantRegisterView({super.key});
 
   @override
-  State<EmployerRegisterView> createState() => _EmployerRegisterViewState();
+  State<RestaurantRegisterView> createState() => _RestaurantRegisterViewState();
 }
 
-class _EmployerRegisterViewState extends State<EmployerRegisterView> {
+class _RestaurantRegisterViewState extends State<RestaurantRegisterView> {
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _nicController = TextEditingController();
   final TextEditingController _telephoneController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -26,7 +25,6 @@ class _EmployerRegisterViewState extends State<EmployerRegisterView> {
 
   final _nameFocusNode = FocusNode();
   final _addressFocusNode = FocusNode();
-  final _nicFocusNode = FocusNode();
   final _telephoneFocusNode = FocusNode();
   final _userNameFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
@@ -61,7 +59,6 @@ class _EmployerRegisterViewState extends State<EmployerRegisterView> {
   void dispose() {
     _nameFocusNode.dispose();
     _addressFocusNode.dispose();
-    _nicFocusNode.dispose();
     _telephoneFocusNode.dispose();
     _userNameFocusNode.dispose();
     _passwordFocusNode.dispose();
@@ -77,7 +74,6 @@ class _EmployerRegisterViewState extends State<EmployerRegisterView> {
       // Form is valid, proceed with the registration process
       final String name = _nameController.text.trim();
       final String address = _addressController.text.trim();
-      final String nic = _nicController.text.trim();
       final String telephone = _telephoneController.text.trim();
       final String userName = _userNameController.text.trim();
       final String password = _passwordController.text.trim();
@@ -88,7 +84,6 @@ class _EmployerRegisterViewState extends State<EmployerRegisterView> {
       print('Form Submitted Successfully');
       print('Name: $name');
       print('Address: $address');
-      print('NIC: $nic');
       print('Telephone: $telephone');
       print('Username: $userName');
       print('Password: $password');
@@ -112,7 +107,7 @@ class _EmployerRegisterViewState extends State<EmployerRegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Employer Registration'),
+        title: const Text('Restaurant Registration'),
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -147,25 +142,9 @@ class _EmployerRegisterViewState extends State<EmployerRegisterView> {
                 return null;
               },
               focusNode: _addressFocusNode,
-              nextFocusNode: _nicFocusNode,
+              nextFocusNode: _telephoneFocusNode,
               textInputType: TextInputType.streetAddress,
               hintText: 'Enter your address',
-            ),
-            CustomInputField(
-              controller: _nicController,
-              labelName: 'NIC',
-              validatorFucntion: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your NIC number';
-                } else if (value.length != 10 && value.length != 12) {
-                  return 'NIC should be 10 or 12 characters long';
-                }
-                return null;
-              },
-              focusNode: _nicFocusNode,
-              nextFocusNode: _telephoneFocusNode,
-              textInputType: TextInputType.text,
-              hintText: 'Enter your NIC number',
             ),
             CustomInputField(
               controller: _telephoneController,

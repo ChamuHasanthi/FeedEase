@@ -1,4 +1,3 @@
-import 'package:feeding_application/core/routes/routes.dart';
 import 'package:feeding_application/core/themeData/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +10,10 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
+
+  
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +76,9 @@ class _RegisterViewState extends State<RegisterView> {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.push('/register-restaurant');
+                        },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: Text(
@@ -108,7 +113,9 @@ class _RegisterViewState extends State<RegisterView> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.push('/login');
+                  },
                   style: const ButtonStyle(
                     backgroundColor:
                         WidgetStatePropertyAll(AppColors.slateGray),
