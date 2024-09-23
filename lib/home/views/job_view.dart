@@ -1,8 +1,57 @@
 import 'package:feeding_application/core/themeData/styles/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'job_card.dart';
 
-class JobView extends StatelessWidget {
+class JobView extends StatefulWidget {
   const JobView({super.key});
+
+  @override
+  State<JobView> createState() => _JobViewState();
+}
+
+class _JobViewState extends State<JobView> {
+  final DatabaseReference databaseRef = FirebaseDatabase.instance.ref('requests');
+  List<Map<dynamic, dynamic>> jobs = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchJobs();
+  }
+
+  void _fetchJobs() {
+    databaseRef.onValue.listen((event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>;
+      setState(() {
+        jobs = data.entries.map((entry) {
+          return Map<String, dynamic>.from(entry.value)..['id'] = entry.key;
+        }).toList();
+        _sortJobs();
+      });
+    });
+  }
+
+  void _sortJobs() {
+    jobs.sort((a, b) {
+      if (a['status'] == 'completed' || a['status'] == 'cancelled') {
+        return 1; // Move 'a' to the end
+      }
+      if (b['status'] == 'completed' || b['status'] == 'cancelled') {
+        return -1; // Move 'b' to the end
+      }
+      return 0; // Keep order
+    });
+  }
+
+  void _updateStatus(String jobId, Status newStatus) {
+    final DatabaseReference jobRef = databaseRef.child(jobId);
+    jobRef.update({
+      'status': newStatus.toString().split('.').last, // Update status to a string
+    }).then((_) {
+      _fetchJobs(); // Fetch jobs again to reflect changes
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,168 +65,31 @@ class JobView extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
-          children: const [
-            JobCard(
-              restaurantName: 'Restaurant 1',
-              weight: '10',
-              status: Status.completed,
-            ),
-            JobCard(
-              restaurantName: 'Restaurant 2',
-              weight: '5',
-              status: Status.cancelled,
-            ),
-            JobCard(
-              restaurantName: 'Restaurant 3',
-              weight: '2',
-              status: Status.ongoing,
-            ),
-            JobCard(
-              restaurantName: 'Restaurant 4',
-              weight: '345',
-              status: Status.cancelled,
-            ),
-            JobCard(
-              restaurantName: 'Restaurant 5',
-              weight: '6',
-              status: Status.completed,
-            ),
-            JobCard(
-              restaurantName: 'Restaurant 6',
-              weight: '4',
-              status: Status.cancelled,
-            ),
-            JobCard(
-              restaurantName: 'Restaurant 7',
-              weight: '23',
-              status: Status.completed,
-            ),
-            JobCard(
-              restaurantName: 'Restaurant 8',
-              weight: '1',
-              status: Status.ongoing,
-            ),
-          ],
-        ),
-      )),
-    );
-  }
-}
-
-class JobCard extends StatelessWidget {
-  const JobCard({
-    super.key,
-    required this.restaurantName,
-    required this.weight,
-    required this.status,
-  });
-
-  final String restaurantName;
-  final String weight;
-  final Status status;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: AppColors.azureBlue,
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.business_rounded,
-                    color: AppColors.white,
-                    size: 50,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      restaurantName,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: AppColors.white),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.scale_rounded,
-                    color: AppColors.white,
-                    size: 50,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      '$weight kg',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: AppColors.white),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.hourglass_bottom_rounded,
-                    color: AppColors.white,
-                    size: 50,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: status == Status.completed
-                              ? const Color.fromARGB(255, 12, 141, 0)
-                              : status == Status.cancelled
-                                  ? AppColors.red
-                                  : AppColors.lightSteelBlue,
-                          border: Border.all(color: AppColors.royalBlue)),
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        status == Status.completed
-                            ? 'Task Completed'
-                            : status == Status.cancelled
-                                ? 'Task Cancelled'
-                                : 'Task Ongoing',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(color: AppColors.white),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: ListView.builder(
+            itemCount: jobs.length,
+            itemBuilder: (context, index) {
+              final job = jobs[index];
+              return JobCard(
+                jobId: job['id'] ?? 'unknown',
+                restaurantName: job['restaurant'] ?? 'Unknown Restaurant',
+                weight: job['quantity']?.toString() ?? '0',
+                status: (job['status'] ?? 'available') == 'completed'
+                    ? Status.completed
+                    : (job['status'] ?? 'available') == 'reserved'
+                    ? Status.reserved
+                    : (job['status'] ?? 'available') == 'cancelled'
+                    ? Status.cancelled
+                    : Status.available,
+                onStatusChanged: (newStatus) {
+                  _updateStatus(job['id'], newStatus); // Pass the job ID and new status
+                },
+              );
+            },
+          ),
         ),
       ),
     );
   }
-}
-
-enum Status {
-  completed,
-  ongoing,
-  cancelled,
 }

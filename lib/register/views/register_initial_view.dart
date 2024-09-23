@@ -10,10 +10,6 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-
-  
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +17,7 @@ class _RegisterViewState extends State<RegisterView> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
+          child: ListView( // Changed from Column to ListView for scrollability
             children: [
               Center(
                 child: Padding(
@@ -99,17 +95,19 @@ class _RegisterViewState extends State<RegisterView> {
                 padding: EdgeInsets.symmetric(vertical: 50),
                 child: Divider(),
               ),
-              const Spacer(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Text(
-                  'Already have an account ?',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: AppColors.deepBlue),
+                child: Center( // Wrap the Text widget inside Center
+                  child: Text(
+                    'Already have an account?',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: AppColors.deepBlue),
+                  ),
                 ),
               ),
+
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: ElevatedButton(
@@ -118,7 +116,7 @@ class _RegisterViewState extends State<RegisterView> {
                   },
                   style: const ButtonStyle(
                     backgroundColor:
-                        WidgetStatePropertyAll(AppColors.slateGray),
+                    WidgetStatePropertyAll(AppColors.slateGray),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),

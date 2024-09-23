@@ -1,3 +1,4 @@
+
 import 'package:feeding_application/core/themeData/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -17,27 +18,27 @@ class BinLevelView extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
           child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
-          children: const [
-            BinCard(
-              binLocation: 'Kelaniya',
-              binName: 'Food Bin 1',
-              level: BinLevel.high,
+            padding: const EdgeInsets.all(10),
+            child: ListView(
+              children: const [
+                BinCard(
+                  binLocation: 'Kelaniya',
+                  binName: 'Food Bin 1',
+                  level: BinLevel.high,
+                ),
+                BinCard(
+                  binLocation: 'Peliyagoda',
+                  binName: 'Food Bin 2',
+                  level: BinLevel.low,
+                ),
+                BinCard(
+                  binLocation: 'Kadawaththa',
+                  binName: 'Food Bin 3',
+                  level: BinLevel.medium,
+                )
+              ],
             ),
-            BinCard(
-              binLocation: 'Peliyagoda',
-              binName: 'Food Bin 2',
-              level: BinLevel.low,
-            ),
-            BinCard(
-              binLocation: 'Kadawaththa',
-              binName: 'Food Bin 3',
-              level: BinLevel.medium,
-            )
-          ],
-        ),
-      )),
+          )),
     );
   }
 }
@@ -111,14 +112,14 @@ class BinCard extends StatelessWidget {
                 level == BinLevel.high
                     ? 'High'
                     : level == BinLevel.low
-                        ? ' Low'
-                        : 'Medium',
+                    ? ' Low'
+                    : 'Medium',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: level == BinLevel.high
                         ? AppColors.red
                         : level == BinLevel.low
-                            ? Colors.white
-                            : Colors.orange),
+                        ? Colors.white
+                        : Colors.orange),
               ),
             )
           ],

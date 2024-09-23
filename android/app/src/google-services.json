@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "286836169257",
+    "project_id": "feedease-a9cef",
+    "storage_bucket": "feedease-a9cef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286836169257:android:31ca36f309667eb62c5a38",
+        "android_client_info": {
+          "package_name": "com.example.feeding_application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkZe464tvMDVzv3CseakHoVmM8DlTgcuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,6 @@
 import 'package:feeding_application/core/themeData/styles/app_colors.dart';
 import 'package:feeding_application/shared/custom_input_field.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -11,8 +12,8 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  TextEditingController userNameController = TextEditingController(text: 'test1');
-  TextEditingController passwordController = TextEditingController( text: 'testPassword2');
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   final _userNameFocusNode = FocusNode();
@@ -169,7 +170,7 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ),
                       ),
-                      Padding(
+                      /*Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Text(
                           'Don\'t have an account ?',
@@ -201,7 +202,7 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                         ),
-                      ),
+                      ),*/
                     ],
                   ))
             ],

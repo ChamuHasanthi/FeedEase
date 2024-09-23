@@ -1,6 +1,7 @@
 import 'package:feeding_application/core/themeData/styles/app_colors.dart';
 import 'package:feeding_application/shared/custom_input_field.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class RequestView extends StatefulWidget {
   const RequestView({Key? key}) : super(key: key);
@@ -16,26 +17,32 @@ class _RequestViewState extends State<RequestView> {
   final FocusNode restaurantNode = FocusNode();
   final FocusNode quantityNode = FocusNode();
 
+  // Create a reference to the Firebase Realtime Database
+  final DatabaseReference databaseRef = FirebaseDatabase.instance.ref('requests');
+
   _submitForm() {
     if (_formKey.currentState!.validate()) {
-      // Form is valid, proceed with the registration process
-
       final String restaurant = restaurantIdController.text.trim();
       final String quantity = quantityController.text.trim();
 
-      // You can now use these values to send to your backend or further processing.
-      // For example, you could call an API or use a bloc event.
+      // Push data to Firebase Realtime Database
+      databaseRef.push().set({
+        'restaurant': restaurant,
+        'quantity': quantity,
+      }).then((_) {
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Request Successful')),
+        );
 
-      print('restaurant: $restaurant');
-      print('quantity: $quantity');
-
-      // Show a success message or navigate to another screen.
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: const Text('Request Successful')),
-      );
-
-      // Clear the form if needed
-      _formKey.currentState!.reset();
+        // Clear the form
+        _formKey.currentState!.reset();
+      }).catchError((error) {
+        // Handle errors here if needed
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to submit request: $error')),
+        );
+      });
     } else {
       // Form is invalid, show error messages
       ScaffoldMessenger.of(context).showSnackBar(
@@ -64,13 +71,13 @@ class _RequestViewState extends State<RequestView> {
               children: [
                 CustomInputField(
                   controller: restaurantIdController,
-                  labelName: 'Restaurant ID',
-                  hintText: 'Enter restaurant ID',
+                  labelName: 'Restaurant name',
+                  hintText: 'Enter restaurant name',
                   focusNode: restaurantNode,
                   nextFocusNode: quantityNode,
                   validatorFucntion: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter restaurant ID';
+                      return 'Please enter restaurant name';
                     }
                     return null;
                   },
@@ -96,7 +103,7 @@ class _RequestViewState extends State<RequestView> {
                       onPressed: _submitForm,
                       style: const ButtonStyle(
                         backgroundColor:
-                            WidgetStatePropertyAll(AppColors.slateGray),
+                        WidgetStatePropertyAll(AppColors.slateGray),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
