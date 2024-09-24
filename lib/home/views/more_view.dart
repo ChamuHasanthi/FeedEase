@@ -8,14 +8,23 @@ class MoreView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'More Screen',
           style: TextStyle(color: AppColors.white),
         ),
         backgroundColor: AppColors.midnightBlue,
       ),
       backgroundColor: Colors.white,
-      body: SafeArea(child: Padding(padding: EdgeInsets.all(20))),
+      body: const SafeArea(
+          child: Padding(
+        padding: EdgeInsets.all(20),
+        child: Center(
+          child: Text(
+            'Version Number : v 0.1.0 +2',
+            style: TextStyle(color: Colors.grey),
+          ),
+        ),
+      )),
     );
   }
 }
