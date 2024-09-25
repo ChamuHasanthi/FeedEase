@@ -42,7 +42,6 @@ final router = GoRouter(
         return const LoginView();
       },
     ),
-    // For employers, show Job View, Bin Level View, and More View
     ShellRoute(
       builder: (context, state, child) {
         return HomeView(child: child);
@@ -56,18 +55,6 @@ final router = GoRouter(
           path: '/bins',
           builder: (context, state) => const BinLevelView(),
         ),
-        GoRoute(
-          path: '/more',
-          builder: (context, state) => const MoreView(),
-        ),
-      ],
-    ),
-    // For restaurants, show Request View and More View
-    ShellRoute(
-      builder: (context, state, child) {
-        return HomeView(child: child);
-      },
-      routes: [
         GoRoute(
           path: '/create-request',
           builder: (context, state) => const RequestView(),

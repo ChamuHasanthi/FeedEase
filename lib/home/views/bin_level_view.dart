@@ -9,7 +9,8 @@ class BinLevelView extends StatefulWidget {
 }
 
 class _BinLevelViewState extends State<BinLevelView> {
-  final DatabaseReference _database = FirebaseDatabase.instance.ref(); // Updated
+  final DatabaseReference _database =
+      FirebaseDatabase.instance.ref(); // Updated
 
   String bin1Level = "loading";
 
@@ -42,7 +43,8 @@ class _BinLevelViewState extends State<BinLevelView> {
             children: [
               // Color code list first
               const ColorCodeList(),
-              const SizedBox(height: 20), // Space between color code and bin card
+              const SizedBox(
+                  height: 20), // Space between color code and bin card
               BinCard(
                 binLocation: 'Kelaniya',
                 binName: 'Food Bin 1',
@@ -127,12 +129,12 @@ class BinCard extends StatelessWidget {
                     color: level == "Level 5"
                         ? Colors.red
                         : level == "Level 4"
-                        ? Colors.orange
-                        : level == "Level 3"
-                        ? Colors.yellow
-                        : level == "Level 2"
-                        ? Colors.green
-                        : Colors.blue),
+                            ? Colors.orange
+                            : level == "Level 3"
+                                ? Colors.yellow
+                                : level == "Level 2"
+                                    ? Colors.green
+                                    : Colors.blue),
               ),
             )
           ],

@@ -68,18 +68,6 @@ class JobCard extends StatelessWidget {
                           .copyWith(color: AppColors.white),
                     ),
                   ),
-                  const Spacer(),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: EdgeInsets.all(15),
-                    child: Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                    ),
-                  )
                 ],
               ),
             ),

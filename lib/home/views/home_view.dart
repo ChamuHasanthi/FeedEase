@@ -1,5 +1,7 @@
+import 'package:feeding_application/core/bloc/user_type_cubit.dart';
 import 'package:feeding_application/core/themeData/styles/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeView extends StatefulWidget {
@@ -13,7 +15,10 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int _selectedIndex = 0;
 
-  final List<String> _tabs = ['/jobs', '/bins', '/create-request', '/more'];
+  // final List<String> _tabs = ['/jobs', '/bins', '/create-request', '/more'];
+  List<String> _tabs = [];
+  final List<String> _tabsRestaurant = ['/create-request', '/more'];
+  final List<String> _tabsEmployer = ['/jobs', '/bins', '/more'];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -30,41 +35,62 @@ class _HomeViewState extends State<HomeView> {
       body: SafeArea(
         child: widget.child,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: AppColors.azureBlue,
-        unselectedItemColor: AppColors.white,
-        showUnselectedLabels: true,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: AppColors.midnightBlue,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.cases_rounded,
-            ),
-            label: 'Jobs',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.leaderboard_rounded,
-            ),
-            label: 'Bin Level',
-          ),
-          BottomNavigationBarItem(
+      bottomNavigationBar:
+          BlocBuilder<UserTypeCubit, UserType>(builder: (context, state) {
+        List<BottomNavigationBarItem> itemsRestaurant = [
+          const BottomNavigationBarItem(
             icon: Icon(
               Icons.create_rounded,
             ),
             label: 'Requests',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(
               Icons.more_horiz_rounded,
             ),
             label: 'More',
           ),
-        ],
-      ),
+        ];
+        List<BottomNavigationBarItem> itemsEmployer = [
+          const BottomNavigationBarItem(
+            icon: Icon(
+              Icons.cases_rounded,
+            ),
+            label: 'Jobs',
+          ),
+          const BottomNavigationBarItem(
+            icon: const Icon(
+              Icons.leaderboard_rounded,
+            ),
+            label: 'Bin Level',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(
+              Icons.more_horiz_rounded,
+            ),
+            label: 'More',
+          ),
+        ];
+
+        if (state == UserType.employer) {
+          _tabs = _tabsEmployer;
+        } else if (state == UserType.restaurant) {
+          _tabs = _tabsRestaurant;
+        }
+
+        return BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          selectedItemColor: AppColors.azureBlue,
+          unselectedItemColor: AppColors.white,
+          showUnselectedLabels: true,
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: AppColors.midnightBlue,
+
+          items: state == UserType.employer ? itemsEmployer : itemsRestaurant,
+          
+        );
+      }),
     );
   }
 }
