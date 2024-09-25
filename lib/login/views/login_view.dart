@@ -1,5 +1,7 @@
+import 'package:feeding_application/core/bloc/user_type_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginView extends StatefulWidget {
@@ -37,6 +39,7 @@ class _LoginViewState extends State<LoginView> {
       final employerSnapshot = await _database.child('employers').orderByChild('username').equalTo(username).get();
       if (employerSnapshot.exists) {
         // If the user is an employer, navigate to the Job View
+        context.read<UserTypeCubit>().selectEmployer();
         context.go('/jobs');
         return;
       }
@@ -45,6 +48,7 @@ class _LoginViewState extends State<LoginView> {
       final restaurantSnapshot = await _database.child('restaurants').orderByChild('username').equalTo(username).get();
       if (restaurantSnapshot.exists) {
         // If the user is a restaurant, navigate to the Request View
+        context.read<UserTypeCubit>().selectRestaurant();
         context.go('/create-request');
         return;
       }
