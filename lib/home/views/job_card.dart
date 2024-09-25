@@ -68,6 +68,18 @@ class JobCard extends StatelessWidget {
                           .copyWith(color: AppColors.white),
                     ),
                   ),
+                  const Spacer(),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.all(15),
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
+                  )
                 ],
               ),
             ),
@@ -86,14 +98,16 @@ class JobCard extends StatelessWidget {
                       width: 140, // Increase the width as needed
                       decoration: BoxDecoration(
                         color: Colors.grey, // Set the background color
-                        borderRadius: BorderRadius.circular(5), // Optional: round corners
+                        borderRadius:
+                            BorderRadius.circular(5), // Optional: round corners
                       ),
                       child: DropdownButton<Status>(
                         value: status,
                         dropdownColor: AppColors.azureBlue,
                         onChanged: (Status? newStatus) {
                           if (newStatus != null) {
-                            onStatusChanged(newStatus); // Call the passed function
+                            onStatusChanged(
+                                newStatus); // Call the passed function
                           }
                         },
                         items: const [
@@ -126,12 +140,13 @@ class JobCard extends StatelessWidget {
                             ),
                           ),
                         ],
-                        style: const TextStyle(color: AppColors.white, fontSize: 18), // Increase font size
+                        style: const TextStyle(
+                            color: AppColors.white,
+                            fontSize: 18), // Increase font size
                         underline: SizedBox(), // Remove the default underline
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
